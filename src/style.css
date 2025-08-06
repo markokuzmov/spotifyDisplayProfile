@@ -13,11 +13,68 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.profile {
+  margin-left: 2em;
+}
+
+#avatar {
+  padding-left: 40px;
+}
+
+/* Top items container: Artists + Tracks side-by-side */
+.topItems {
+  display: flex;
+  gap: 2rem; /* space between the two lists */
+  align-items: flex-start; /* align the tops */
+}
+
+/* Each section inside topItems stacks its title and list vertically */
+.topItems > div {
+  display: flex;
+  flex-direction: column; /* title above list */
+  align-items: flex-start; /* left-align inside column */
+}
+
+.section-title {
+  text-align: left;
+  margin-bottom: 0.5em;
+}
+
+ol {
+  padding-left: 0;
+  margin: 0;
+}
+
+.div-list {
+  display: flex;
+  align-items: center;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 0.5em;
+}
+
+.rank {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+li::marker {
+  font-size: 1.2em;
+}
+
+li img {
+  margin-right: 1em;
+}
+
 a {
   color: black;
   font-weight: 500;
   text-decoration: none;
-  target: "_blank"
 }
 a:hover {
   color: #535bf2;
@@ -39,7 +96,6 @@ h1 {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align:left;
 }
 
 .logo {

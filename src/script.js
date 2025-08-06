@@ -119,12 +119,12 @@ const fetchProfile = async () => {
 }
 
 const fetchTopArtists = async () => {
-    const result = await fetchWithAuth("https://api.spotify.com/v1/me/top/artists?time_range=short_term")
+    const result = await fetchWithAuth("https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50")
     return result.json()
 }
 
 const fetchTopTracks = async () => {
-    const result = await fetchWithAuth("https://api.spotify.com/v1/me/top/tracks?time_range=short_term")
+    const result = await fetchWithAuth("https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50")
     return result.json()
 }
 
@@ -149,30 +149,64 @@ function populateProfileUI(profile) {
 function populateTopItemsUI(topArtists, topTracks) {
     var artistList = document.getElementById("topArtists")
     var trackList = document.getElementById("topTracks")
-
+    
+    let rank = 1;
     for (var artist of topArtists.items) {
         var li = document.createElement('li')
-        var artistImage = new Image(50, 50)
+        // Number
+        var num = document.createElement('span');
+        num.className = 'rank'
+        num.textContent = rank++;
+
+        //Div for contents
+        var div = document.createElement('div')
+        div.className = 'div-list'
+
+        //Hyperlink to song with image
+        var link = document.createElement('a')
+        link.setAttribute("href", artist.external_urls.spotify)
+        link.setAttribute("target", "_blank")
+
+        var artistImage = new Image(100, 100)
         artistImage.src = artist.images[0].url
-        li.appendChild(artistImage)
-        li.appendChild(document.createTextNode(artist.name))
+
+        link.appendChild(artistImage) // <a><img></a>
+        div.appendChild(link) // <div><a><img></a></div>
+        div.appendChild(document.createTextNode(artist.name)) // <div><a><img></a>Text</div>
+
+        li.appendChild(num) // <li><span></span></li>
+        li.appendChild(div) // <li><span></span><div><a><img></a>Text</div><li>
         artistList.appendChild(li)
     }
 
+    rank = 1;
     for (var track of topTracks.items) {
         var li = document.createElement('li')
 
-        var trackImage = new Image(50, 50)
-        trackImage.src = track.album.images[0].url
-        li.appendChild(trackImage)
-        li.appendChild(document.createTextNode(track.name))
+        // Number
+        var num = document.createElement('span');
+        num.className = 'rank'
+        num.textContent = rank++;
 
+        //Div for contents
+        var div = document.createElement('div')
+        div.setAttribute("class", 'div-list')
+
+        //Hyperlink to song with image
         var link = document.createElement('a')
         link.setAttribute("href", track.external_urls.spotify)
         link.setAttribute("target", "_blank")
-        link.appendChild(li)
-        
-        trackList.appendChild(link)
+
+        var trackImage = new Image(100, 100)
+        trackImage.src = track.album.images[0].url
+
+        link.appendChild(trackImage) // <a><img></a>
+        div.appendChild(link) // <div><a><img></a></div>
+        div.appendChild(document.createTextNode(track.name)) // <div><a><img></a>Text</div>
+
+        li.appendChild(num)
+        li.appendChild(div) // <li><div><a><img></a>Text</div><li>
+        trackList.appendChild(li)
     }
 
 }
